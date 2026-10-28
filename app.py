@@ -4,16 +4,15 @@ import streamlit as st
 st.set_page_config(
     page_title="El agua en México: Disponibilidad y Desperdicio",
     page_icon="💧",
-    layout="centered",)
+    layout="centered",
+)
 
 st.markdown(
     """
     <style>
     .main {background-color: #F4F8FB;}
     h1 {color: #1B4965;text-align: center;}
-    h3 {
-        color: #62B6CB;
-    }
+    h3 {color: #62B6CB;}
     </style>
 """,
     unsafe_allow_html=True,
@@ -59,8 +58,8 @@ estados_mexico = [
     "Tlaxcala",
     "Veracruz",
     "Yucatán",
-    "Zacatecas",]
-
+    "Zacatecas",
+]
 
 estados_mexico = sorted(list(set(estados_mexico)))
 
@@ -72,7 +71,6 @@ periodos = [
     "2026-2030",
     "Dato más reciente disponible",
 ]
-
 
 datos_disponibilidad = {
     "Chihuahua": {
@@ -122,7 +120,6 @@ st.markdown("---")
 
 st.subheader("2. Indicadores Hídricos")
 
-
 disp_valor = "Sin datos disponibles"
 if estado_seleccionado in datos_disponibilidad:
     if periodo_seleccionado in datos_disponibilidad[estado_seleccionado]:
@@ -150,7 +147,6 @@ with col_m2:
         "ya que incluye usos agrícolas, industriales y pérdidas en infraestructura."
     )
 
-
 st.write(f"### Calidad y Monitoreo del Agua en {estado_seleccionado}")
 st.write(
     f"Los reportes de calidad del agua se basan en los sitios de monitoreo de cuerpos de agua superficiales y subterráneos "
@@ -177,11 +173,9 @@ with col_s2:
 with col_s3:
     frecuencia_semanal = st.slider("Veces que te bañas por semana:", 1, 14, 7)
 
-
 litros_por_ducha = minutos_espera * caudal_regadera
 litros_por_semana = litros_por_ducha * frecuencia_semanal
 litros_por_anio = litros_por_semana * 52
-
 
 st.write("### Resultados estimados de desperdicio:")
 res_col1, res_col2, res_col3 = st.columns(3)
@@ -194,7 +188,6 @@ with res_col2:
 
 with res_col3:
     st.metric("Por año", f"{litros_por_anio:,.0f} litros")
-
 
 if litros_por_anio > 0:
     df_grafica = pd.DataFrame(
