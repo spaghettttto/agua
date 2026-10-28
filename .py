@@ -4,20 +4,13 @@ import streamlit as st
 st.set_page_config(
     page_title="El agua en México: Disponibilidad y Desperdicio",
     page_icon="💧",
-    layout="centered",
-)
+    layout="centered",)
 
-# Estilo visual limpio con tonos azules y blancos usando Markdown personalizado
 st.markdown(
     """
     <style>
-    .main {
-        background-color: #F4F8FB;
-    }
-    h1 {
-        color: #1B4965;
-        text-align: center;
-    }
+    .main {background-color: #F4F8FB;}
+    h1 {color: #1B4965;text-align: center;}
     h3 {
         color: #62B6CB;
     }
@@ -34,8 +27,6 @@ st.write(
 
 st.markdown("---")
 
-
-# Lista de los 32 estados de México
 estados_mexico = [
     "Aguascalientes",
     "Baja California",
@@ -64,14 +55,13 @@ estados_mexico = [
     "Sinaloa",
     "Sonora",
     "Tabasco",
-    "Chiapas",
     "Tamaulipas",
     "Tlaxcala",
     "Veracruz",
     "Yucatán",
-    "Zacatecas",
-]
-# Ordenar alfabéticamente asegurando que Chihuahua sea fácil de ubicar, pero seteando Chihuahua por defecto
+    "Zacatecas",]
+
+
 estados_mexico = sorted(list(set(estados_mexico)))
 
 periodos = [
@@ -83,8 +73,7 @@ periodos = [
     "Dato más reciente disponible",
 ]
 
-# Datos de disponibilidad de agua renovable per cápita (m3 / habitante / año)
-# Nota: Valores basados en estadísticas generales del Atlas del Agua en México (CONAGUA).
+
 datos_disponibilidad = {
     "Chihuahua": {
         "2006-2010": 1850,
@@ -112,18 +101,13 @@ datos_disponibilidad = {
     },
 }
 
-
-
 st.subheader("1. Consulta por Estado y Periodo")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    # Seleccionar Chihuahua por defecto si está en la lista
     default_index = (
-        estados_mexico.index("Chihuahua")
-        if "Chihuahua" in estados_mexico
-        else 0
+        estados_mexico.index("Chihuahua") if "Chihuahua" in estados_mexico else 0
     )
     estado_seleccionado = st.selectbox(
         "Selecciona un estado de México:", estados_mexico, index=default_index
@@ -136,17 +120,13 @@ with col2:
 
 st.markdown("---")
 
-
-
 st.subheader("2. Indicadores Hídricos")
 
-# Obtener disponibilidad según el estado y periodo seleccionado
+
 disp_valor = "Sin datos disponibles"
 if estado_seleccionado in datos_disponibilidad:
     if periodo_seleccionado in datos_disponibilidad[estado_seleccionado]:
-        disp_valor = datos_disponibilidad[estado_seleccionado][
-            periodo_seleccionado
-        ]
+        disp_valor = datos_disponibilidad[estado_seleccionado][periodo_seleccionado]
 
 col_m1, col_m2 = st.columns(2)
 
@@ -170,10 +150,8 @@ with col_m2:
         "ya que incluye usos agrícolas, industriales y pérdidas en infraestructura."
     )
 
-# Calidad del agua
-st.write(
-    f"### Calidad y Monitoreo del Agua en {estado_seleccionado}"
-)
+
+st.write(f"### Calidad y Monitoreo del Agua en {estado_seleccionado}")
 st.write(
     f"Los reportes de calidad del agua se basan en los sitios de monitoreo de cuerpos de agua superficiales y subterráneos "
     f"administrados por la **CONAGUA**. Es importante destacar que la calidad varía drásticamente entre cuencas, pozos "
@@ -183,7 +161,6 @@ st.write(
 
 st.markdown("---")
 
-
 st.subheader("3. Simulador de desperdicio de agua (Regadera)")
 st.write(
     "Calcula cuánta agua se pierde mientras dejamos correr la regadera esperando a que salga caliente antes de entrar a bañarnos."
@@ -192,26 +169,20 @@ st.write(
 col_s1, col_s2, col_s3 = st.columns(3)
 
 with col_s1:
-    minutos_espera = st.slider(
-        "Minutos de espera antes de entrar:", 0, 10, 3
-    )
+    minutos_espera = st.slider("Minutos de espera antes de entrar:", 0, 10, 3)
 
 with col_s2:
-    caudal_regadera = st.slider(
-        "Caudal de la regadera (Litros/minuto):", 2, 15, 8
-    )
+    caudal_regadera = st.slider("Caudal de la regadera (Litros/minuto):", 2, 15, 8)
 
 with col_s3:
-    frecuencia_semanal = st.slider(
-        "Veces que te bañas por semana:", 1, 14, 7
-    )
+    frecuencia_semanal = st.slider("Veces que te bañas por semana:", 1, 14, 7)
 
-# Cálculos matemáticos básicos
+
 litros_por_ducha = minutos_espera * caudal_regadera
 litros_por_semana = litros_por_ducha * frecuencia_semanal
 litros_por_anio = litros_por_semana * 52
 
-# Mostrar resultados con métricas claras
+
 st.write("### Resultados estimados de desperdicio:")
 res_col1, res_col2, res_col3 = st.columns(3)
 
@@ -224,7 +195,7 @@ with res_col2:
 with res_col3:
     st.metric("Por año", f"{litros_por_anio:,.0f} litros")
 
-# Gráfica de barras sencilla usando Pandas
+
 if litros_por_anio > 0:
     df_grafica = pd.DataFrame(
         {
@@ -246,7 +217,6 @@ st.write(
 
 st.markdown("---")
 
-
 st.subheader("4. Recomendaciones prácticas")
 st.success(
     "**Acciones sencillas para reducir el consumo en casa:**\n\n"
@@ -257,7 +227,6 @@ st.success(
 )
 
 st.markdown("---")
-
 
 st.subheader("5. Fuentes de información oficiales")
 st.write(
